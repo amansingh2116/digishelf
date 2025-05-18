@@ -1,0 +1,14 @@
+<!-- templates/includes/header.html -->
+{% load static %}  <!-- Add this line at the very top -->
+<header>
+    <div class="logo">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Digishelf Logo">
+        </a>
+    </div>
+    <div class="header-icons">
+        <a href="{% url 'contact' %}"><img src="{% static 'images/contact.png' %}" alt="Contact"></a>
+        <a href="{% url 'cart' %}"><img src="{% static 'images/cart.png' %}" alt="Cart"></a>
+        <a href="{% url 'account' %}"><img src="{% static 'images/account.png' %}" alt="Account"></a>
+    </div>
+</header>

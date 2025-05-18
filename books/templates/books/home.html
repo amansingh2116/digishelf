@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="genres">
+    {% for genre in genres %}
+    <button onclick="filterGenre('{{ genre.name|lower }}')">{{ genre.name }}</button>
+    {% endfor %}
+</div>
+
+<div class="genre-filter">
+    {% for genre in genres %}
+    <a href="?genre={{ genre.name }}" class="genre-btn {% if current_genre == genre.name %}active{% endif %}">
+        {{ genre.name }}
+    </a>
+    {% endfor %}
+    <a href="?" class="genre-btn {% if not current_genre %}active{% endif %}">All</a>
+</div>
+
+<div class="slider-container">
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            {% for book in featured_books %}
+            <div class="swiper-slide">
+                <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+                <div class="slide-content">
+                    <h3>{{ book.title }}</h3>
+                    <a href="{% url 'book_detail' book.id %}" class="btn-slider">View Details</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</div>
+
+<div class="book-grid">
+    {% for book in books %}
+    <div class="book-card">
+        <div class="book-image">
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+        </div>
+        <div class="book-details">
+            <h3>{{ book.title }}</h3>
+            <p class="author">by {{ book.author }}</p>
+            <div class="price-container">
+                <span class="price">₹{{ book.price }}</span>
+                <a href="{{ book.razorpay_link }}" class="buy-button" target="_blank">Buy Now</a>
+            </div>
+            <div class="genre-tags">
+                {% for genre in book.genres.all %}
+                <span class="genre-tag">{{ genre.name }}</span>
+                {% endfor %}
+            </div>
+            <a href="{% url 'book_detail' book.id %}" class="details-link">View Details →</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="sample-section">
+    <div class="books">
+        {% for book in books %}
+        <div class="book">
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+            <h3>{{ book.title }}</h3>
+            <p>by {{ book.author }}</p>
+            <a href="{% url 'book_detail' book.id %}" class="btn">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
