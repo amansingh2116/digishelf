@@ -5,15 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Digishelf{% endblock %}</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     {% include 'includes/header.html' %}
     
-    <main class="container">
+    <main class="main-content">
         {% block content %}{% endblock %}
     </main>
     
     {% include 'includes/footer.html' %}
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    {% block scripts %}
+    <!-- Page-specific scripts will be inserted here -->
+    {% endblock %}
+
+    {% include 'books/includes/footer.html' %}
 </body>
 </html>

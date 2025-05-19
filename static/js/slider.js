@@ -1,32 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Slider script loaded');
-    
     // Slider functionality
-    const sliderContainer = document.querySelector('.slider-container');
+    const slider = document.querySelector('.slider-container');
     const slides = document.querySelectorAll('.slide');
     const dotsContainer = document.querySelector('.slide-dots');
     const prevBtn = document.querySelector('.prev-slide');
     const nextBtn = document.querySelector('.next-slide');
     
-    console.log('Slider elements:', {
-        sliderContainer: !!sliderContainer,
-        slides: slides.length,
-        dotsContainer: !!dotsContainer,
-        prevBtn: !!prevBtn,
-        nextBtn: !!nextBtn
-    });
-    
-    if (!sliderContainer || !dotsContainer || !prevBtn || !nextBtn || slides.length === 0) {
-        console.error('Slider elements not found');
-        return; // Exit if elements don't exist
-    }
-    
     let currentIndex = 0;
     let slideInterval;
     const slideDuration = 5000; // 5 seconds
-    
-    // Clear any existing dots first
-    dotsContainer.innerHTML = '';
     
     // Create dots
     slides.forEach((_, index) => {
@@ -37,20 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
         dotsContainer.appendChild(dot);
     });
     
-    // Initialize slider with proper display style
+    // Initialize slider
     function updateSlider() {
-        console.log('Updating slider to index:', currentIndex);
-        
-        // Hide all slides first
-        slides.forEach(slide => {
-            slide.style.display = 'none';
-        });
-        
-        // Show only the current slide
-        if (slides[currentIndex]) {
-            slides[currentIndex].style.display = 'block';
-            console.log('Set slide to display:block');
-        }
+        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
         
         // Update dots
         document.querySelectorAll('.slide-dots .dot').forEach((dot, index) => {
@@ -77,9 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Auto slide
     function startInterval() {
-        clearInterval(slideInterval); // Clear any existing interval first
         slideInterval = setInterval(nextSlide, slideDuration);
-        console.log('Started auto-sliding interval');
     }
     
     // Reset interval when user interacts
@@ -90,36 +59,32 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Event listeners
     nextBtn.addEventListener('click', () => {
-        console.log('Next button clicked');
         nextSlide();
+        resetInterval();
     });
     
     prevBtn.addEventListener('click', () => {
-        console.log('Previous button clicked');
         prevSlide();
+        resetInterval();
     });
     
     // Pause on hover
-    sliderContainer.addEventListener('mouseenter', () => {
+    slider.addEventListener('mouseenter', () => {
         clearInterval(slideInterval);
-        console.log('Slider hover - paused interval');
     });
     
-    sliderContainer.addEventListener('mouseleave', () => {
-        startInterval();
-        console.log('Slider exit - resumed interval');
-    });
+    slider.addEventListener('mouseleave', startInterval);
     
     // Touch support for mobile
     let touchStartX = 0;
     let touchEndX = 0;
     
-    sliderContainer.addEventListener('touchstart', (e) => {
+    slider.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
         clearInterval(slideInterval);
     }, {passive: true});
     
-    sliderContainer.addEventListener('touchend', (e) => {
+    slider.addEventListener('touchend', (e) => {
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
         startInterval();
@@ -134,14 +99,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Force the first slide to be visible on load
-    slides.forEach((slide, index) => {
-        slide.style.display = index === 0 ? 'block' : 'none';
-    });
+    // Start the slider
+    startInterval();
     
-    // Initial setup
-    updateSlider(); // Set the initial slide
-    startInterval(); // Start auto-sliding
+    // Responsive adjustments
+    function handleResize() {
+        // You can add responsive adjustments here if needed
+    }
     
-    console.log('Slider initialized successfully');
+    window.addEventListener('resize', handleResize);
+    handleResize();
 });
