@@ -11,8 +11,8 @@ def home(request):
     return render(request, 'home.html', {'books': books, 'genres': genres})
 
 def book_detail(request, book_id):
-    book = Book.objects.get(id=book_id)
-    return render(request, 'book_detail.html', {'book': book})
+    book = get_object_or_404(Book, id=book_id)
+    return render(request, 'books/book_detail.html', {'book': book})
 
 def search_books(request):
     query = request.GET.get('q', '')
