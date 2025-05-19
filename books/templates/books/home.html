@@ -17,22 +17,18 @@
     <a href="?" class="genre-btn {% if not current_genre %}active{% endif %}">All</a>
 </div>
 
+<!-- Slider Section -->
 <div class="slider-container">
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-            {% for book in featured_books %}
-            <div class="swiper-slide">
-                <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
-                <div class="slide-content">
-                    <h3>{{ book.title }}</h3>
-                    <a href="{% url 'book_detail' book.id %}" class="btn-slider">View Details</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+  <div class="slider">
+    <div class="slide">
+      <img src="{% static 'img/slider/slide1.jpg' %}" alt="Slide 1">
     </div>
+    <div class="slide">
+      <img src="{% static 'img/slider/slide2.jpg' %}" alt="Slide 2">
+    </div>
+  </div>
+  <button class="slider-btn prev-btn">❮</button>
+  <button class="slider-btn next-btn">❯</button>
 </div>
 
 <div class="book-grid">
@@ -71,4 +67,11 @@
         {% endfor %}
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Load jQuery (if not already loaded in base.html) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Link your slider.js -->
+<script src="{% static 'js/slider.js' %}"></script>
 {% endblock %}
