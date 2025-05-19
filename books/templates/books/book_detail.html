@@ -1,44 +1,31 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'books/base.html' %}
 
 {% block content %}
-<div class="book-detail-container">
-    <div class="book-media">
-        <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="detail-cover">
-        {% if book.demo_pages %}
-        <a href="{{ book.demo_pages.url }}" class="demo-button" target="_blank">
-            Download Sample ({{ book.demo_pages.size|filesizeformat }})
-        </a>
-        {% endif %}
-    </div>
-    
-    <div class="book-info">
-        <h1>{{ book.title }}</h1>
-        <p class="author">by {{ book.author }}</p>
-        <div class="meta-info">
-            <span class="price">₹{{ book.price }}</span>
-            <span class="upload-date">Uploaded: {{ book.created_at|date:"M d, Y" }}</span>
-        </div>
-        
-        <div class="description">
-            <h3>Description</h3>
-            <p>{{ book.description }}</p>
+<div class="container">
+    <h1>{{ book.title }}</h1>
+    <div class="row">
+        <div class="col-md-4">
+            {% if book.image %}
+            <img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-fluid mb-3" style="max-height: 400px;">
+            {% else %}
+            <div class="text-muted">No image available</div>
+            {% endif %}
+            
+            <div class="d-grid gap-2">
+                {% if book.demo_pdf %}
+                <a href="{{ book.demo_pdf.url }}" target="_blank" class="btn btn-info">
+                    View Demo PDF
+                </a>
+                {% endif %}
+                <button class="btn btn-success">Buy Now (₹{{ book.price }})</button>
+            </div>
         </div>
 
-        <div class="genres-section">
-            {% for genre in book.genres.all %}
-            <span class="genre-tag">{{ genre.name }}</span>
-            {% endfor %}
-        </div>
-        
-        <div class="actions">
-            <a href="{{ book.razorpay_link }}" class="purchase-btn" target="_blank">
-                Purchase Now
-            </a>
-            <form action="{% url 'add_to_cart' book.id %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="cart-btn">Add to Cart</button>
-            </form>
+        <div class="col-md-8">
+            <p><strong>Author:</strong> {{ book.author }}</p>
+            <p><strong>Price:</strong> ₹{{ book.price }}</p>
+            <p><strong>Description:</strong><br>{{ book.description }}</p>
+            <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
         </div>
     </div>
 </div>

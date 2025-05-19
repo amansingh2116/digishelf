@@ -9,18 +9,18 @@
     <button class="genre-btn {% if not current_genre %}active{% endif %}" onclick="window.location.href='?'">All</button>
 </div>
 
-<!-- Slider Section -->
-<div class="slider-container">
-  <div class="slider">
-    <div class="slide">
-      <img src="{% static 'img/slider/slide1.jpg' %}" alt="Slide 1">
+<!-- Swiper Slider Section -->
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        {% for image in slider_images %}
+        <div class="swiper-slide">
+            <img src="{{ image.image.url }}" alt="{{ image.caption }}" style="width:100%; height:500px; object-fit: cover;">
+        </div>
+        {% endfor %}
     </div>
-    <div class="slide">
-      <img src="{% static 'img/slider/slide2.jpg' %}" alt="Slide 2">
-    </div>
-  </div>
-  <button class="slider-btn prev-btn">❮</button>
-  <button class="slider-btn next-btn">❯</button>
+    <!-- Add navigation buttons -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
 </div>
 
 <div class="book-grid">
@@ -41,18 +41,33 @@
                 <span class="genre-tag">{{ genre.name }}</span>
                 {% endfor %}
             </div>
-            <a href="{% url 'book_detail' book.id %}" class="details-link">View Details →</a>
+            <a href="{% url 'book_detail' book.id %}" class="btn btn-outline-primary">View Details →</a>
         </div>
     </div>
     {% endfor %}
 </div>
-
-
 {% endblock %}
 
 {% block scripts %}
 <!-- Load jQuery (if not already loaded in base.html) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Link your slider.js -->
-<script src="{% static 'js/slider.js' %}"></script>
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        autoplay: {
+            delay: 3000,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
+{% endblock %}
+
+{% block styles %}
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 {% endblock %}

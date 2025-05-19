@@ -5,13 +5,36 @@ from django.shortcuts import get_object_or_404
 # books/views.py
 from django.shortcuts import render, redirect  # Add redirect import
 
+from .models import Book, SliderImage
+
 def home(request):
-    books = Book.objects.all()
+    genre_filter = request.GET.get('genre')
     genres = Genre.objects.all()
-    return render(request, 'home.html', {'books': books, 'genres': genres})
+    
+    if genre_filter:
+        books = Book.objects.filter(genres__name=genre_filter)
+        current_genre = genre_filter
+    else:
+        books = Book.objects.all()
+        current_genre = None
+    
+    # Get active slider images
+    slider_images = SliderImage.objects.filter(is_active=True)
+    
+    context = {
+        'books': books,
+        'genres': genres,
+        'current_genre': current_genre,
+        'slider_images': slider_images,  # Add this line
+    }
+    
+    return render(request, 'books/home.html', context)
 
 def book_detail(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
+    try:
+        book = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        raise Http404("Book not found")
     return render(request, 'books/book_detail.html', {'book': book})
 
 def search_books(request):
@@ -59,29 +82,23 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book, Cart, CartItem
 from django.contrib.auth.decorators import login_required
 
-@login_required
-def cart(request):
-    cart = get_object_or_404(Cart, user=request.user)
-    return render(request, 'books/cart.html', {'cart': cart})
+from django.contrib.auth.decorators import login_required
 
 @login_required
 def add_to_cart(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
-    cart, created = Cart.objects.get_or_create(user=request.user)
-    item, created = CartItem.objects.get_or_create(cart=cart, book=book)
-    
-    if not created:
-        item.quantity += 1
-        item.save()
-    
+    book = Book.objects.get(id=book_id)
+    CartItem.objects.get_or_create(user=request.user, book=book)
     return redirect('cart')
 
 @login_required
-def remove_from_cart(request, item_id):
-    item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
-    item.delete()
-    return redirect('cart')
+def cart(request):
+    items = CartItem.objects.filter(user=request.user)
+    return render(request, 'books/cart.html', {'items': items})
 
+@login_required
+def remove_from_cart(request, item_id):
+    CartItem.objects.filter(id=item_id, user=request.user).delete()
+    return redirect('cart')
 
 def account(request):
     return render(request, 'books/account.html')
@@ -160,3 +177,7 @@ def add_book(request):
     else:
         form = BookForm()
     return render(request, 'books/add_book.html', {'form': form})
+
+
+def privacy(request):
+    return render(request, 'books/privacy.html')

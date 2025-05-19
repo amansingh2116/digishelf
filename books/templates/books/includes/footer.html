@@ -1,21 +1,24 @@
-<footer class="site-footer">
-    <div class="footer-content">
-        <div class="footer-section guidelines">
-            <h4>Guidelines & Tips</h4>
-            <ul>
-                <li>All books are delivered as secure PDF files</li>
-                <li>Check the 5-page demo before purchasing</li>
-                <li>Contact us for any queries</li>
-            </ul>
+<footer class="bg-dark text-light mt-5">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>DigiShelf</h5>
+                <p>Your digital bookshelf for modern readers</p>
+            </div>
+            <div class="col-md-3">
+                <h5>Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'home' %}" class="text-light">Home</a></li>
+                    <li><a href="{% url 'privacy' %}" class="text-light">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5>Contact</h5>
+                <p>Email: contact@digishelf.com</p>
+            </div>
         </div>
-        
-        <div class="footer-section legal">
-            <a href="{% url 'terms' %}">Conditions of Use</a>
-            <a href="{% url 'privacy' %}">Privacy Notice</a>
-        </div>
-        
-        <div class="footer-section copyright">
-            <p>&copy; 2024 Digishelf. All rights reserved.</p>
+        <div class="text-center pt-3 border-top">
+            <small>© 2024 DigiShelf. All rights reserved.</small>
         </div>
     </div>
 </footer>
