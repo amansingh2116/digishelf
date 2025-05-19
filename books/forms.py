@@ -18,7 +18,7 @@ from .models import Book
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['title', 'author', 'description', 'price', 'pdf_file', 
+        fields = ['title', 'author', 'description', 'price', 
                  'cover_image', 'genres', 'demo_pages', 'razorpay_link']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),

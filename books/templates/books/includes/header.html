@@ -8,13 +8,6 @@
     <div class="header-icons">
         <a href="{% url 'contact' %}">
             <img src="{% static 'images/contact.png' %}" alt="Contact">
-        </a>
-        <a href="{% url 'cart' %}">
-            <img src="{% static 'images/cart.png' %}" alt="Cart">
-        </a>
-        <a href="{% url 'account' %}">
-            <img src="{% static 'images/account.png' %}" alt="Account">
-        </a>
     </div>
     <div class="header-actions">
         {% if user.is_authenticated %}

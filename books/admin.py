@@ -39,24 +39,11 @@ class BookAdmin(admin.ModelAdmin):
 class GenreAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(SliderImage)
-class SliderImageAdmin(admin.ModelAdmin):
-    list_display = ('caption', 'display_order', 'is_active')
-    list_editable = ('display_order', 'is_active')
-    list_filter = ('is_active',)
-
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'created_at')
     readonly_fields = ('created_at',)
 
-@admin.register(Cart)
-class CartAdmin(admin.ModelAdmin):
-    list_display = ('user', 'created_at')
-
-@admin.register(CartItem)
-class CartItemAdmin(admin.ModelAdmin):
-    list_display = ('user', 'book', 'added_at')
 
 
 # admin.site.register(SliderImage)

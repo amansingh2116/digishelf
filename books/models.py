@@ -68,7 +68,6 @@ class Book(models.Model):
         verbose_name="Razorpay Payment Link",
         help_text="Paste Razorpay payment page URL here"
     )
-    pdf_file = models.FileField(upload_to='books/pdfs/')
     cover_image = models.ImageField(upload_to='books/covers/')
     genres = models.ManyToManyField(Genre)
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
