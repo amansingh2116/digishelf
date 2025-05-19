@@ -5,19 +5,20 @@
     <h1>{{ book.title }}</h1>
     <div class="row">
         <div class="col-md-4">
-            {% if book.image %}
-            <img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-fluid mb-3" style="max-height: 400px;">
+            {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="img-fluid mb-3" style="max-height: 400px;">
             {% else %}
             <div class="text-muted">No image available</div>
             {% endif %}
             
             <div class="d-grid gap-2">
-                {% if book.demo_pdf %}
-                <a href="{{ book.demo_pdf.url }}" target="_blank" class="btn btn-info">
+                {% if book.demo_pages %}
+                <a href="{{ book.demo_pages.url }}" target="_blank" class="btn btn-info">
                     View Demo PDF
                 </a>
                 {% endif %}
-                <button class="btn btn-success">Buy Now (₹{{ book.price }})</button>
+                <span class="price">₹{{ book.price }}</span>
+                <a href="{{ book.razorpay_link }}" class="buy-button" target="_blank">Buy Now</a>
             </div>
         </div>
 
